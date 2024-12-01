@@ -13,7 +13,9 @@ export const App: React.FC = () => {
   const [query, setQuery] = useState<string>('');
   const [appliedQuery, setAppliedQuery] = useState<string>('');
 
-  const searchQuery = useCallback(debounce(setAppliedQuery, 500), []);
+  const searchQuery = useCallback(debounce(setAppliedQuery, 300), [
+    setAppliedQuery,
+  ]);
 
   useMemo(() => {
     const filteredPeople = peopleFromServer.filter((person: Person) =>
@@ -28,7 +30,7 @@ export const App: React.FC = () => {
   const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
     searchQuery(event.target.value);
-    if (query !== activePerson?.name) {
+    if (query !== event.target.value) {
       setActivePerson(null);
     }
   };
